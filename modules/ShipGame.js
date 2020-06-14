@@ -1,4 +1,6 @@
-class ShipGame extends Phaser.Game
+import { ShipScene } from './ShipScene.js'
+
+export class ShipGame extends Phaser.Game
 {
     constructor() {
         super({
@@ -15,7 +17,3 @@ class ShipGame extends Phaser.Game
         });
     }
 }
-
-window.onload = function () {
-    var game = new ShipGame();   
-};

@@ -1,4 +1,6 @@
-class Ship extends Phaser.GameObjects.Container
+import { MainEngine, Thruster } from './Engine.js'
+
+export class Ship extends Phaser.GameObjects.Container
 {
     constructor(scene)
     {

@@ -58,7 +58,7 @@ class Engine
 
 }
 
-class MainEngine extends Engine
+export class MainEngine extends Engine
 {
     constructor(scene)
     {
@@ -67,7 +67,7 @@ class MainEngine extends Engine
 
 }
 
-class Thruster extends Engine
+export class Thruster extends Engine
 {
     constructor(scene, x, y, direction)
     {

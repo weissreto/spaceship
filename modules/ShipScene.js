@@ -1,4 +1,6 @@
-class ShipScene extends Phaser.Scene
+import { Ship } from './Ship.js'
+
+export class ShipScene extends Phaser.Scene
 {
     constructor() {
         super({
