@@ -1,4 +1,8 @@
 import { Ship } from './Ship.js'
+import { MainCamera, MiniCamera } from './Camera.js'
+import { Background } from './Background.js'
+import { Ground } from './Ground.js'
+import { Controller } from './Controller.js'
 
 export class ShipScene extends Phaser.Scene
 {
@@ -23,93 +27,17 @@ export class ShipScene extends Phaser.Scene
     }
       
     create() {
-        var mainCam = this.cameras.main;
-        mainCam.setViewport(0,0, 800, 600);
-        mainCam.setBounds(0,0, 3200, 1200);
-        var overviewCam = this.cameras.add(640, 0, 160, 60);
-        overviewCam.setBackgroundColor(0x002244);
-        overviewCam.setZoom(0.05);
-        overviewCam.setBounds(0,0, 800, 600);
-        this.add.image(400, 300, 'skytop');
-        this.add.image(1200, 300, 'skytop');
-        this.add.image(2000, 300, 'skytop');
-        this.add.image(2800, 300, 'skytop');
-        this.add.image(400, 900, 'sky');
-        this.add.image(1200, 900, 'sky');
-        this.add.image(2000, 900, 'sky');
-        this.add.image(2800, 900, 'sky');
-        this.sound.play('background', { volume: 0.1 });
-
-        var ship = new Ship(this);
-        this.ship = ship;
-        mainCam.startFollow(ship, true);
-
-        this.sand = this.physics.add.staticGroup({
-            key: 'moon',
-            frameQuantity: 100
-        });
-        Phaser.Actions.PlaceOnLine(this.sand.getChildren(),
-            new Phaser.Geom.Line(16, 1184, 3216, 1184));
-        this.sand.refresh();
-
-        var spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-        var leftKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-        var rightKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
-        var downKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
-        var zeroKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_ZERO);
-        var dotKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
-
-        spaceKey.addListener('down', function (key, event) {
-            ship.engineOn('up');
-        });
-        
-        spaceKey.on('up', function (key, event) {
-            ship.engineOff('up');
-        });
-
-        leftKey.on('down', function (key, event) {
-            ship.engineOn('left');
-        });
-
-        leftKey.on('up', function (key, event) {
-            ship.engineOff('left');
-        });
-
-        rightKey.on('down', function (key, event) {
-            ship.engineOn('right');
-        });
-
-        rightKey.on('up', function (key, event) {
-            ship.engineOff('right');
-        });
-
-        downKey.on('down', function (key, event) {
-            ship.engineOn('down');
-        });
-
-        downKey.on('up', function (key, event) {
-            ship.engineOff('down');
-        });
-
-        zeroKey.on('down', function (key, event) {
-            ship.engineOn('turnLeft');
-        });
-
-        zeroKey.on('up', function (key, event) {
-            ship.engineOff('turnLeft');
-        });
-
-        dotKey.on('down', function (key, event) {
-            ship.engineOn('turnRight');
-        });
-
-        dotKey.on('up', function (key, event) {
-            ship.engineOff('turnRight');
-        });
+        let mainCam = new MainCamera(this);
+        let miniCam = new MiniCamera(this);
+        let background = new Background(this);
+        this.ground = new Ground(this);
+        this.ship = new Ship(this);
+        mainCam.startFollow(this.ship);
+        let controller = new Controller(this, this.ship);
     }    
 
     update()
     {
-        this.physics.world.collide(this.ship, this.sand, () => this.ship.landed());
+        this.physics.world.collide(this.ship, this.ground.getGround(), () => this.ship.landed());
     }
 }
