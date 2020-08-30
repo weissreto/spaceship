@@ -170,7 +170,7 @@ export class Ship extends Phaser.GameObjects.Container
 
     landed()
     {
-        if (this.body.speed > 50 || this.angle > 10 || this.angle < -10)
+        if (this.body.speed > 100 || this.angle > 10 || this.angle < -10)
         {
             this.explosion.on = true;
             this.explosionSound.play({ loop: true });
