@@ -13,7 +13,7 @@ export class ShipScene extends Phaser.Scene
     }
     
     preload() {
-        this.load.setBaseURL('http://localhost/game/');
+        this.load.setBaseURL('http://localhost/');
         this.load.image('ship', 'assets/ship.png');
         this.load.image('skytop', 'assets/skytop.png');
         this.load.image('sky', 'assets/sky.png');
