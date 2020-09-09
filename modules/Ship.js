@@ -40,8 +40,7 @@ export class Ship extends Phaser.GameObjects.Container
         scene.physics.world.enable(this);
         this.body.setCollideWorldBounds(true);
         this.engines = [];
-        this.explosionSound = scene.sound.add('explosion');
-        this.winSound = scene.sound.add('win');
+        this.state = "Flying";
     }
 
     engineOn(direction)
@@ -170,14 +169,14 @@ export class Ship extends Phaser.GameObjects.Container
 
     landed()
     {
-        if (this.body.speed > 100 || this.angle > 10 || this.angle < -10)
+        if (this.body.speed > 100 || this.rotation > 10 || this.rotation < -10)
         {
+            this.state = "Exploded"
             this.explosion.on = true;
-            this.explosionSound.play({ loop: true });
         }
         else
         {
-            this.winSound.play( { loop: true });
+            this.state = "Landed";
         }
         this.body.setAcceleration(0, 0);
         this.body.setVelocity(0,0);
